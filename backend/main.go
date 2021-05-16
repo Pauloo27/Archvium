@@ -9,6 +9,8 @@ import (
 	"github.com/Pauloo27/archvium/services/db"
 	"github.com/Pauloo27/archvium/utils"
 	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v2/middleware/cors"
+	jwtware "github.com/gofiber/jwt/v2"
 	"github.com/joho/godotenv"
 )
 
@@ -24,6 +26,18 @@ func init() {
 
 func main() {
 	app := fiber.New()
+
+	app.Use(cors.New(cors.Config{
+		AllowOrigins: utils.Env("FRONTEND_URL"),
+		AllowHeaders: "Origin, Content-Type, Accept, Authorization",
+	}))
+
+	app.Use(jwtware.New(jwtware.Config{
+		SigningKey: []byte(utils.Env("AUTH_JWT_SECRET")),
+		ErrorHandler: func(c *fiber.Ctx, err error) error {
+			return c.Next()
+		},
+	}))
 
 	router.RouteFor(app)
 
