@@ -28,11 +28,11 @@ func main() {
 	router.RouteFor(app)
 
 	logger.HandleFatal(db.Connect(
-		os.Getenv("ARCHVIUM_DB_HOST"),
-		os.Getenv("ARCHVIUM_DB_USER"),
-		os.Getenv("ARCHVIUM_DB_PASSWORD"),
+		utils.Env("DB_HOST"),
+		utils.Env("DB_USER"),
+		utils.Env("DB_PASSWORD"),
 		"archvium",
-		os.Getenv("ARCHVIUM_DB_PORT"),
+		utils.Env("DB_PORT"),
 	), "Cannot connect to db")
 
 	db.Setup()
