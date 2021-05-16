@@ -1,6 +1,7 @@
 package db
 
 import (
+	"github.com/Pauloo27/archvium/model"
 	"github.com/Pauloo27/archvium/utils"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
@@ -23,4 +24,8 @@ func Connect(host, username, password, dbname, port string) error {
 	Connection = db
 
 	return err
+}
+
+func Setup() {
+	Connection.AutoMigrate(&model.User{})
 }
