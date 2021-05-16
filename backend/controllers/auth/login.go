@@ -35,14 +35,19 @@ func Login(ctx *fiber.Ctx) error {
 	}
 
 	token := jwt.New(jwt.SigningMethodHS256)
+	// TODO: refresh
+	expiresAt := time.Now().Add(time.Hour * 5).Unix()
 
 	claims := token.Claims.(jwt.MapClaims)
-	// TODO: refresh
-	claims["exp"] = time.Now().Add(time.Hour * 5).Unix()
+	claims["exp"] = expiresAt
 	claims["username"] = user.Username
 	claims["id"] = user.ID
 
 	t, err := token.SignedString([]byte(utils.Env("AUTH_JWT_SECRET")))
 
-	return utils.AsJSON(ctx, http.StatusCreated, fiber.Map{"token": t})
+	return utils.AsJSON(ctx, http.StatusCreated, fiber.Map{
+		"token":     t,
+		"expiresAt": expiresAt,
+		"prefix":    "Bearer",
+	})
 }
