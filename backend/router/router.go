@@ -8,5 +8,7 @@ import (
 var prefix = "/v1"
 
 func RouteFor(app *fiber.App) {
-	app.Post(prefix+"/auth", withPayload(new(auth.RegisterPayload)), auth.Register)
+	// Auth
+	app.Post(prefix+"/auth/register", withPayload(new(auth.RegisterPayload)), auth.Register)
+	app.Post(prefix+"/auth/login", withPayload(new(auth.LoginPayload)), auth.Login)
 }
