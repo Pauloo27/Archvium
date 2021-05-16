@@ -3,10 +3,12 @@ package auth
 import (
 	"errors"
 	"net/http"
+	"time"
 
 	"github.com/Pauloo27/archvium/model"
 	"github.com/Pauloo27/archvium/services/db"
 	"github.com/Pauloo27/archvium/utils"
+	jwt "github.com/form3tech-oss/jwt-go"
 	"github.com/gofiber/fiber/v2"
 	"gorm.io/gorm"
 )
@@ -32,6 +34,15 @@ func Login(ctx *fiber.Ctx) error {
 		}
 	}
 
-	// TODO: token
-	return utils.AsMsg(ctx, http.StatusAccepted, "logged!")
+	token := jwt.New(jwt.SigningMethodHS256)
+
+	claims := token.Claims.(jwt.MapClaims)
+	// TODO: refresh
+	claims["exp"] = time.Now().Add(time.Hour * 5).Unix()
+	claims["username"] = user.Username
+	claims["id"] = user.ID
+
+	t, err := token.SignedString([]byte(utils.Env("AUTH_JWT_SECRET")))
+
+	return utils.AsJSON(ctx, http.StatusCreated, fiber.Map{"token": t})
 }
