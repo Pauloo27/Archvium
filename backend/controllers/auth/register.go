@@ -9,9 +9,9 @@ import (
 )
 
 type RegisterPayload struct {
-	Username string `validate:"required,min=3,max=32"`
+	Username string `validate:"required,min=5,max=32"`
 	Email    string `validate:"required,email"`
-	Password string `validate:"required,min=3,max=32"`
+	Password string `validate:"required,min=5,max=32"`
 }
 
 func Register(ctx *fiber.Ctx) error {
