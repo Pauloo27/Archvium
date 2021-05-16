@@ -1,6 +1,7 @@
 package db
 
 import (
+	"github.com/Pauloo27/archvium/logger"
 	"github.com/Pauloo27/archvium/model"
 	"github.com/Pauloo27/archvium/utils"
 	"gorm.io/driver/postgres"
@@ -28,4 +29,10 @@ func Connect(host, username, password, dbname, port string) error {
 
 func Setup() {
 	Connection.AutoMigrate(&model.User{})
+	err := Connection.Create(&model.User{
+		Username: "admin", Password: utils.Env("AUTH_ADMIN_PASSWORD"), Email: "admin@localhost",
+	}).Error
+	if err != nil && !utils.IsNotUnique(err) {
+		logger.HandleFatal(err, "Cannot create admin user")
+	}
 }

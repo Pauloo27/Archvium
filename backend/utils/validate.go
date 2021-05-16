@@ -2,6 +2,7 @@ package utils
 
 import (
 	"net/http"
+	"strings"
 
 	"github.com/go-playground/validator"
 	"github.com/gofiber/fiber/v2"
@@ -45,4 +46,10 @@ func ParseAndValidate(payload interface{}) fiber.Handler {
 		ctx.Locals("payload", payload)
 		return ctx.Next()
 	}
+}
+
+func IsNotUnique(err error) bool {
+	// FIXME
+	// There's no gorm.ErrUnique... so... raw string check?
+	return strings.HasPrefix(err.Error(), "ERROR: duplicate key value")
 }
