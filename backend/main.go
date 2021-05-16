@@ -6,6 +6,7 @@ import (
 
 	"github.com/Pauloo27/archvium/logger"
 	"github.com/Pauloo27/archvium/router"
+	"github.com/Pauloo27/archvium/services/db"
 	"github.com/Pauloo27/archvium/utils"
 	"github.com/gofiber/fiber/v2"
 	"github.com/joho/godotenv"
@@ -25,6 +26,14 @@ func main() {
 	app := fiber.New()
 
 	router.RouteFor(app)
+
+	logger.HandleFatal(db.Connect(
+		os.Getenv("ARCHVIUM_DB_HOST"),
+		os.Getenv("ARCHVIUM_DB_USER"),
+		os.Getenv("ARCHVIUM_DB_PASSWORD"),
+		"archvium",
+		os.Getenv("ARCHVIUM_DB_PORT"),
+	), "What's wrong with your db???")
 
 	app.Listen(utils.Fmt(":%d", port))
 }
