@@ -1,0 +1,16 @@
+/* colors and paddings */
+:root {
+  --text-main: #eee;
+  --bg-main: #1a1a1a;
+  --bg-alt: #212121;
+
+  --text-size-almost-ok: 28px;
+  --text-size-ok: 32px;
+
+  --color-success: #2ecc71;
+
+  --link-color: #C0FFEE;
+  
+  --padding-main: 10px;
+  --padding-alt: 5px;
+}

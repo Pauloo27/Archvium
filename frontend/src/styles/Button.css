@@ -1,0 +1,12 @@
+.button {
+  text-transform: uppercase;
+  cursor: pointer;
+  padding: var(--padding-alt) var(--padding-main);
+  border: none;
+  font-size: var(--text-size-almost-ok);
+  border-radius: 2px;
+}
+
+.button-success {
+  background-color: var(--color-success);
+}
