@@ -1,6 +1,7 @@
 import React from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Header from "./components/Header";
+import Page404 from "./pages/404";
 import "./styles/theme.css";
 import "./styles/App.css";
 
@@ -19,7 +20,7 @@ export default function App() {
           <h1>register</h1>
         </Route>
         <Route>
-          <h1>404</h1>
+          <Page404 />
         </Route>
       </Switch>
     </Router>

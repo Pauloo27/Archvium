@@ -1,0 +1,13 @@
+#container-404 {
+  margin: var(--margin-main) auto;
+}
+
+#container-404 #img {
+  margin: var(--margin-main) auto;
+  width: 40%;
+}
+
+#container-404 #text-container {
+  margin: var(--margin-main) auto;
+  width: 40%;
+}
