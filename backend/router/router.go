@@ -1,27 +1,24 @@
 package router
 
 import (
-	"github.com/Pauloo27/archvium/controllers/auth"
+	authController "github.com/Pauloo27/archvium/controllers/auth"
 	"github.com/gofiber/fiber/v2"
 )
 
-var prefix = "/v1"
-
 func RouteFor(app *fiber.App) {
-	// Auth
-	app.Post(prefix+"/auth/register",
+
+	v1 := app.Group("/v1")
+	auth := v1.Group("/auth")
+
+	auth.Post("/register",
 		requireGuest,
 		withEnvBool("AUTH_SELF_REGISTER"),
-		withPayload(new(auth.RegisterPayload)),
-		auth.Register,
+		withPayload(new(authController.RegisterPayload)),
+		authController.Register,
 	)
-	app.Post(prefix+"/auth/login", requireGuest, withPayload(new(auth.LoginPayload)), auth.Login)
-
-	// Test
-	app.Get(prefix+"/hello", requireAuth, func(ctx *fiber.Ctx) error {
-		return ctx.SendString("Hello")
-	})
-	app.Get(prefix+"/hi", requireGuest, func(ctx *fiber.Ctx) error {
-		return ctx.SendString("Hi")
-	})
+	auth.Post("/login",
+		requireGuest,
+		withPayload(new(authController.LoginPayload)),
+		authController.Login,
+	)
 }
