@@ -9,7 +9,7 @@ var salt string
 
 func HashPassword(password string) string {
 	if salt == "" {
-		salt = Env("AUTH_SALT")
+		salt = EnvString("AUTH_SALT")
 	}
 	hasher := sha256.New()
 	hasher.Write([]byte(Fmt(salt, password)))

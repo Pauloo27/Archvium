@@ -43,7 +43,7 @@ func Login(ctx *fiber.Ctx) error {
 	claims["username"] = user.Username
 	claims["id"] = user.ID
 
-	t, err := token.SignedString([]byte(utils.Env("AUTH_JWT_SECRET")))
+	t, err := token.SignedString([]byte(utils.EnvString("AUTH_JWT_SECRET")))
 
 	return utils.AsJSON(ctx, http.StatusCreated, fiber.Map{
 		"token":     t,

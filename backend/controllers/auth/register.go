@@ -2,9 +2,7 @@ package auth
 
 import (
 	"net/http"
-	"strconv"
 
-	"github.com/Pauloo27/archvium/logger"
 	"github.com/Pauloo27/archvium/model"
 	"github.com/Pauloo27/archvium/services/db"
 	"github.com/Pauloo27/archvium/utils"
@@ -17,16 +15,8 @@ type RegisterPayload struct {
 	Password string `validate:"required,min=5,max=32"`
 }
 
-var canSelfRegister *bool
-
 func Register(ctx *fiber.Ctx) error {
-	if canSelfRegister == nil {
-		b, err := strconv.ParseBool(utils.Env("AUTH_SELF_REGISTER"))
-		logger.HandleFatal(err, "Cannot parse AUTH_SELF_REGISTER env")
-		canSelfRegister = &b
-	}
-
-	if !*canSelfRegister {
+	if !(ctx.Locals("ENV_AUTH_SELF_REGISTER").(bool)) {
 		return utils.AsError(ctx, http.StatusUnauthorized, "Self register is disabled")
 	}
 

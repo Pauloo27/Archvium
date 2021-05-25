@@ -29,9 +29,13 @@ func Connect(host, username, password, dbname, port string) error {
 
 func Setup() {
 	Connection.AutoMigrate(&model.User{})
+
 	err := Connection.Create(&model.User{
-		Username: "admin", Password: utils.Env("AUTH_ADMIN_PASSWORD"), Email: "admin@localhost",
+		Username: "admin",
+		Password: utils.EnvString("AUTH_ADMIN_PASSWORD"),
+		Email:    "admin@localhost",
 	}).Error
+
 	if err != nil && !utils.IsNotUnique(err) {
 		logger.HandleFatal(err, "Cannot create admin user")
 	}

@@ -9,7 +9,12 @@ var prefix = "/v1"
 
 func RouteFor(app *fiber.App) {
 	// Auth
-	app.Post(prefix+"/auth/register", requireGuest, withPayload(new(auth.RegisterPayload)), auth.Register)
+	app.Post(prefix+"/auth/register",
+		requireGuest,
+		withEnvBool("AUTH_SELF_REGISTER"),
+		withPayload(new(auth.RegisterPayload)),
+		auth.Register,
+	)
 	app.Post(prefix+"/auth/login", requireGuest, withPayload(new(auth.LoginPayload)), auth.Login)
 
 	// Test

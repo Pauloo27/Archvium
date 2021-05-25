@@ -14,6 +14,20 @@ func withPayload(payload interface{}) fiber.Handler {
 	return utils.ParseAndValidate(payload)
 }
 
+func withEnv(name string) fiber.Handler {
+	return func(c *fiber.Ctx) error {
+		c.Locals("ENV_"+name, utils.Env(name))
+		return c.Next()
+	}
+}
+
+func withEnvBool(name string) fiber.Handler {
+	return func(c *fiber.Ctx) error {
+		c.Locals("ENV_"+name, utils.EnvBool(name))
+		return c.Next()
+	}
+}
+
 func requireAuth(c *fiber.Ctx) error {
 	if isAuthed(c) {
 		user := c.Locals("user").(*jwt.Token)
