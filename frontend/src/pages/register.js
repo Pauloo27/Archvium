@@ -1,5 +1,5 @@
 import React, { useCallback, useState, useRef } from "react";
-import { useHistory } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import Button from "../components/Button";
 import Notification from "../components/Notification";
 import { doRequest } from "../api/core";
@@ -78,6 +78,11 @@ export default function PageRegister() {
           placeholder="Repeat password"
           ref={rePassRef}
         />
+        <span>
+          Already have a account?
+          {" "}
+          <Link to="/login">Log in</Link>
+        </span>
         <Button name="Register" kind="success" type="submit" />
       </form>
     </main>
