@@ -6,7 +6,7 @@ import { doRequest } from "../api/core";
 import "../styles/PageRegister.css";
 
 export default function PageRegister() {
-  const [usernameRef, emailRef, passwordRef] = [useRef(0), useRef(0), useRef(0)];
+  const [usernameRef, emailRef, passRef, rePassRef] = [useRef(0), useRef(0), useRef(0), useRef(0)];
 
   const [error, setError] = useState(undefined);
 
@@ -14,10 +14,16 @@ export default function PageRegister() {
 
   const handleSubmit = useCallback((e) => {
     e.preventDefault();
+
+    if (rePassRef.current.value !== passRef.current.value) {
+      setError("Password doesn't match");
+      return;
+    }
+
     const body = JSON.stringify({
       username: usernameRef.current.value,
       email: emailRef.current.value,
-      password: passwordRef.current.value,
+      password: passRef.current.value,
     });
 
     doRequest("/auth/register", { method: "POST", body, headers: { "Content-Type": "application/json" } })
@@ -64,7 +70,13 @@ export default function PageRegister() {
           name="password"
           type="password"
           placeholder="Password"
-          ref={passwordRef}
+          ref={passRef}
+        />
+        <input
+          name="repeat password"
+          type="password"
+          placeholder="Repeat password"
+          ref={rePassRef}
         />
         <Button name="Register" kind="success" type="submit" />
       </form>
