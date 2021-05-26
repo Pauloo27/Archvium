@@ -9,7 +9,8 @@ import (
 )
 
 type ValidationError struct {
-	Field, Error string
+	Field string `json:"field"`
+	Error string `json:"error"`
 }
 
 func Validate(a interface{}) *[]*ValidationError {
@@ -23,9 +24,17 @@ func Validate(a interface{}) *[]*ValidationError {
 	}
 
 	for _, err := range rawErrs.(validator.ValidationErrors) {
-		errs = append(errs, &ValidationError{
-			Field: err.StructField(), Error: Fmt("%s: %s", err.Tag(), err.Param()),
-		})
+		tag := err.Tag()
+		param := err.Param()
+		if param != "" {
+			errs = append(errs, &ValidationError{
+				Field: err.StructField(), Error: Fmt("%s: %s", tag, param),
+			})
+		} else {
+			errs = append(errs, &ValidationError{
+				Field: err.StructField(), Error: tag,
+			})
+		}
 	}
 
 	return &errs
@@ -40,7 +49,7 @@ func ParseAndValidate(payload interface{}) fiber.Handler {
 		errs := Validate(payload)
 		if errs != nil {
 			ctx.Response().SetStatusCode(fiber.StatusBadRequest)
-			return ctx.JSON(errs)
+			return ctx.JSON(fiber.Map{"errors": errs})
 		}
 
 		ctx.Locals("payload", payload)
