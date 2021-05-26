@@ -5,9 +5,9 @@ export default function Page404() {
   return (
     <main id="container-404">
       <h1 id="title">The page you are looking for was not found...</h1>
-      <img src="https://http.cat/404" id="img" />
+      <img alt="A cat hidden in a stack of paper and 404: Not found text" src="https://http.cat/404" id="img" />
       <div id="text-container">
-        <h3>Murphy's laws:</h3>
+        <h3>Murphy&quot;s laws:</h3>
         If anything can go wrong, it will.
         <br />
         If there is a possibility of several things going wrong,
@@ -28,13 +28,13 @@ export default function Page404() {
         Every solution breeds new problems.
         <br />
         No matter how long or how hard you shop for an item,
-        after you've bought it, it will be on sale somewhere cheaper.
+        after you&quot;ve bought it, it will be on sale somewhere cheaper.
         <br />
         Everyone has a scheme for getting rich that will not work.
         <br />
-        There's never time to do it right, but there's always time to do it over.
+        There&quot;s never time to do it right, but there&quot;s always time to do it over.
         <br />
-        Murphy's golden rule: whoever has the gold makes the rules.
+        Murphy&quot;s golden rule: whoever has the gold makes the rules.
       </div>
     </main>
   );
