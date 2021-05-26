@@ -7,5 +7,5 @@
 
 #main-header #app-name {
   margin: auto 0;
-  font-size: var(--text-size-ok);
+  font-size: var(--text-size-l);
 }

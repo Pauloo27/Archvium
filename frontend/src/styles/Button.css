@@ -3,8 +3,13 @@
   cursor: pointer;
   padding: var(--padding-alt) var(--padding-main);
   border: none;
-  font-size: var(--text-size-almost-ok);
-  border-radius: 2px;
+  font-size: var(--text-size-m);
+  border-radius: 10px;
+  border-top: 2px solid var(--color-success-alt);
+}
+
+.button:active {
+  border-top: 0;
 }
 
 .button-success {

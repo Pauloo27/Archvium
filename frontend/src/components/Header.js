@@ -9,7 +9,7 @@ export default function Header() {
       <Link to={"/"}>
         <span id="app-name">Archvium</span>
       </Link>
-      <Button name="Login" type="success" to="/login" />
+      <Button name="Login" kind="success" to="/login" type="button" />
     </header>
   );
 }

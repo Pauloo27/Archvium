@@ -1,13 +1,17 @@
 /* colors and paddings */
 :root {
   --text-main: #eee;
+  --text-alt: #bbb;
   --bg-main: #1a1a1a;
   --bg-alt: #212121;
 
-  --text-size-almost-ok: 28px;
-  --text-size-ok: 32px;
+  --text-size-m: 18px;
+  --text-size-xm: 22px;
+  --text-size-l: 28px;
+  --text-size-xl: 32px;
 
   --color-success: #2ecc71;
+  --color-success-alt: #1fc07a;
 
   --link-color: #C0FFEE;
   
