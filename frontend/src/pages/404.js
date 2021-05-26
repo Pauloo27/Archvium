@@ -1,5 +1,5 @@
-import React from "react";
-import "../styles/Page404.css";
+import React from 'react';
+import '../styles/Page404.css';
 
 export default function Page404() {
   return (
@@ -9,31 +9,31 @@ export default function Page404() {
       <div id="text-container">
         <h3>Murphy's laws:</h3>
         If anything can go wrong, it will.
-        <br/>
-        If there is a possibility of several things going wrong, 
+        <br />
+        If there is a possibility of several things going wrong,
         the one that will cause the most damage will be the one to go wrong.
-        <br/>
+        <br />
         If anything just cannot go wrong, it will anyway.
-        <br/>
+        <br />
         If everything seems to be going well, you have obviously overlooked something.
-        <br/>
+        <br />
         Left to themselves, things tend to go from bad to worse.
-        <br/>
+        <br />
         Smile... tomorrow will be worse.
-        <br/>
+        <br />
         Everything takes longer than you think.
-        <br/>
+        <br />
         Everything takes longer than it takes.
-        <br/>
+        <br />
         Every solution breeds new problems.
-        <br/>
+        <br />
         No matter how long or how hard you shop for an item,
         after you've bought it, it will be on sale somewhere cheaper.
-        <br/>
+        <br />
         Everyone has a scheme for getting rich that will not work.
-        <br/>
+        <br />
         There's never time to do it right, but there's always time to do it over.
-        <br/>
+        <br />
         Murphy's golden rule: whoever has the gold makes the rules.
       </div>
     </main>
