@@ -1,23 +1,49 @@
-import React, { useCallback, useRef } from "react";
+import React, { useCallback, useState, useRef } from "react";
+import { useHistory } from "react-router-dom";
 import Button from "../components/Button";
+import Notification from "../components/Notification";
 import { doRequest } from "../api/core";
 import "../styles/PageRegister.css";
 
 export default function PageRegister() {
   const [usernameRef, emailRef, passwordRef] = [useRef(0), useRef(0), useRef(0)];
 
+  const [error, setError] = useState(undefined);
+
+  const history = useHistory();
+
   const handleSubmit = useCallback((e) => {
     e.preventDefault();
-    const payload = {
+    const body = JSON.stringify({
       username: usernameRef.current.value,
       email: emailRef.current.value,
       password: passwordRef.current.value,
-    };
-    doRequest("/auth/register", { method: "POST", body: payload });
-  });
+    });
+
+    doRequest("/auth/register", { method: "POST", body, headers: { "Content-Type": "application/json" } })
+      .then((res) => {
+        if (res.ok) {
+          setError(undefined);
+          history.push("/login");
+          return;
+        }
+        res.json().then((json) => setError(json.error ?? json.errors
+          .map((err) => `${err.field}: ${err.error}`).join(" | ")));
+      });
+  }, [setError]);
 
   return (
     <main onSubmit={handleSubmit} id="container-register">
+      {
+        error ? (
+          <Notification
+            kind="error"
+            text={error}
+            timeout={5000}
+            onTimeout={() => setError(undefined)}
+          />
+        ) : null
+      }
       <h1>Fill the form</h1>
       <form id="register-form">
         <input

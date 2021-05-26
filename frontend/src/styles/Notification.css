@@ -1,0 +1,15 @@
+.container-notification {
+  padding: 20px 30px;
+  border-radius: 10px;
+  position: fixed;
+  right: 10px;
+  color: var(--bg-main);
+}
+
+.container-notification-success {
+  background-color: var(--color-success);
+}
+
+.container-notification-error {
+  background-color: var(--color-error);
+}
