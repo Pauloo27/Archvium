@@ -1,11 +1,11 @@
-import React from 'react';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
-import Header from './components/Header';
-import Page404 from './pages/404';
-import PageLogin from './pages/login';
-import PageRegister from './pages/register';
-import './styles/theme.css';
-import './styles/App.css';
+import React from "react";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import Header from "./components/Header";
+import Page404 from "./pages/404";
+import PageLogin from "./pages/login";
+import PageRegister from "./pages/register";
+import "./styles/theme.css";
+import "./styles/App.css";
 
 export default function App() {
   return (

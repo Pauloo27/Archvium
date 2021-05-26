@@ -1,6 +1,6 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import '../styles/Button.css';
+import React from "react";
+import { Link } from "react-router-dom";
+import "../styles/Button.css";
 
 export default function Button({
   name, type, kind, to,

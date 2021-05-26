@@ -1,6 +1,6 @@
-import React, { useCallback, useRef } from 'react';
-import Button from '../components/Button';
-import '../styles/PageRegister.css';
+import React, { useCallback, useRef } from "react";
+import Button from "../components/Button";
+import "../styles/PageRegister.css";
 
 export default function PageRegister() {
   const [usernameRef, emailRef, passwordRef] = [useRef(0), useRef(0), useRef(0)];
