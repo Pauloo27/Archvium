@@ -21,5 +21,6 @@ module.exports = {
     "react/jsx-filename-extension": "off",
     "react/button-has-type": "off",
     quotes: ["error", "double"],
+    "import/prefer-default-export": "off",
   },
 };

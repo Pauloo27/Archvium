@@ -1,5 +1,6 @@
 import React, { useCallback, useRef } from "react";
 import Button from "../components/Button";
+import { doRequest } from "../api/core";
 import "../styles/PageRegister.css";
 
 export default function PageRegister() {
@@ -12,7 +13,7 @@ export default function PageRegister() {
       email: emailRef.current.value,
       password: passwordRef.current.value,
     };
-    console.log(payload);
+    doRequest("/auth/register", { method: "POST", body: payload });
   });
 
   return (
