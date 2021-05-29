@@ -2,7 +2,7 @@ import React, { useCallback, useState, useRef } from "react";
 import { Link, useHistory } from "react-router-dom";
 import Button from "../components/Button";
 import Notification from "../components/Notification";
-import { doRequest } from "../api/core";
+import { doGuestRequest as doRequest } from "../api/core";
 import "../styles/PageRegister.css";
 
 export default function PageLogin() {
