@@ -1,4 +1,5 @@
 import React, { useCallback, useState, useRef } from "react";
+import useAuth from "../hooks/auth";
 import { Link, useHistory } from "react-router-dom";
 import Button from "../components/Button";
 import Notification from "../components/Notification";
@@ -7,10 +8,9 @@ import "../styles/PageRegister.css";
 
 export default function PageLogin() {
   const [usernameRef, passRef] = [useRef(0), useRef(0)];
-
   const [error, setError] = useState(undefined);
-
   const history = useHistory();
+  const auth = useAuth();
 
   const handleSubmit = useCallback((e) => {
     e.preventDefault();
@@ -24,9 +24,10 @@ export default function PageLogin() {
       .then((res) => {
         if (res.ok) {
           setError(undefined);
-          history.push("/");
           res.json().then((json) => {
             sessionStorage.setItem("token", JSON.stringify(json));
+            auth.setToken(json);
+            history.push("/");
           });
           return;
         }

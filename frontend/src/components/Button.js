@@ -3,11 +3,12 @@ import { Link } from "react-router-dom";
 import "../styles/Button.css";
 
 export default function Button({
-  name, type, kind, to,
+  name, type, kind, to, onClick,
 }) {
   const btn = (
     <button
       type={type}
+      onClick={onClick}
       className={`button button-${kind}`}
     >
       {name}

@@ -14,13 +14,22 @@ export default function App() {
   const [loaded, setLoaded] = useState(false);
 
   const update = useStore((state) => state.update);
+  const token = useStore((state) => state.token);
+
+  // load token from sessionStorage
+  useEffect(() => {
+    const loadedToken = sessionStorage.getItem("token");
+
+    if (loadedToken === null) {
+      setLoaded(true);
+      return;
+    }
+
+    update("token", JSON.parse(loadedToken));
+  }, [update]);
 
   useEffect(() => {
-    const token = sessionStorage.getItem("token");
-
-    if (token === null) return setLoaded(true);
-    update("token", JSON.parse(token));
-
+    if (token === undefined) return;
     doRequest("/users/@me", {})
       .then((res) => {
         if (res.status === 200) {
@@ -30,7 +39,7 @@ export default function App() {
           });
         }
       });
-  }, []);
+  }, [token]);
 
   if (!loaded) return "Loading...";
 

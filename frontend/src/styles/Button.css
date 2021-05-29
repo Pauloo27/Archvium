@@ -5,13 +5,12 @@
   border: none;
   font-size: var(--text-size-m);
   border-radius: 10px;
-  border-top: 2px solid var(--color-success-alt);
-}
-
-.button:active {
-  border-top: 0;
 }
 
 .button-success {
   background-color: var(--color-success);
+}
+
+.button-error {
+  background-color: var(--color-error);
 }
