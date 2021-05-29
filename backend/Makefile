@@ -19,3 +19,7 @@ dist:
 # (even smaller binary)
 pack: dist
 	upx ./$(BINARY_NAME)
+
+# fiber dev (with hot reload)
+dev:
+	fiber dev
