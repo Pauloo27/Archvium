@@ -5,7 +5,7 @@ export default function useAuth() {
   const user = useStore((state) => state.user);
   const update = useStore((state) => state.update);
 
-  const [isGuest, setIsGuest] = useState(undefined);
+  const [isGuest, setIsGuest] = useState(true);
   useEffect(() => {
     setIsGuest(user === undefined);
   }, [user]);
@@ -13,6 +13,7 @@ export default function useAuth() {
   const logout = useCallback(() => {
     if (isGuest) return;
 
+    sessionStorage.removeItem("token");
     update("token", undefined);
     update("user", undefined);
   }, [update, isGuest]);

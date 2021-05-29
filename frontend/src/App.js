@@ -1,10 +1,15 @@
 import React, { useEffect, useState } from "react";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import {
+  BrowserRouter as Router, Switch, Route,
+} from "react-router-dom";
 import { doAuthedRequest as doRequest } from "./api/core";
 import Header from "./components/Header";
+import Guest from "./components/Guest";
+import Authed from "./components/Authed";
 import Page404 from "./pages/404";
 import PageLogin from "./pages/login";
 import PageRegister from "./pages/register";
+import PageFiles from "./pages/files";
 import PageHome from "./pages/home";
 import useStore from "./hooks/store";
 import "./styles/theme.css";
@@ -12,7 +17,6 @@ import "./styles/App.css";
 
 export default function App() {
   const [loaded, setLoaded] = useState(false);
-
   const update = useStore((state) => state.update);
   const token = useStore((state) => state.token);
 
@@ -50,11 +54,20 @@ export default function App() {
         <Route path="/" exact>
           <PageHome />
         </Route>
+        <Route path="/files" exact>
+          <Authed>
+            <PageFiles />
+          </Authed>
+        </Route>
         <Route path="/login" exact>
-          <PageLogin />
+          <Guest forceRedirect>
+            <PageLogin />
+          </Guest>
         </Route>
         <Route path="/register" exact>
-          <PageRegister />
+          <Guest forceRedirect>
+            <PageRegister />
+          </Guest>
         </Route>
         <Route>
           <Page404 />
