@@ -26,7 +26,9 @@ func RouteFor(app *fiber.App) {
 		authController.Login,
 	)
 
-	files.Post("/", requireAuth, filesController.Upload)
+	files.Post("/",
+		requireAuth, withEnv("STORAGE_ROOT"), filesController.Upload,
+	)
 
 	users.Get("/@me", requireAuth, usersController.GetMe)
 }
