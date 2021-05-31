@@ -20,13 +20,15 @@ export default function App() {
   const update = useStore((state) => state.update);
   const token = useStore((state) => state.token);
 
+  useStore.subscribe(() => {
+    setLoaded(true);
+  }, (state) => state.user);
+
   // load token from sessionStorage
   useEffect(() => {
     const loadedToken = sessionStorage.getItem("token");
-
     if (loadedToken === null) {
-      setLoaded(true);
-      return;
+      update("user", null);
     }
 
     update("token", JSON.parse(loadedToken));
@@ -37,10 +39,7 @@ export default function App() {
     doRequest("/users/@me", {})
       .then((res) => {
         if (res.status === 200) {
-          res.json().then((json) => {
-            update("user", json);
-            setLoaded(true);
-          });
+          res.json().then((json) => update("user", json));
         }
       });
   }, [token]);

@@ -4,11 +4,10 @@ import useStore from "./store";
 export default function useAuth() {
   const user = useStore((state) => state.user);
   const update = useStore((state) => state.update);
+  const [isGuest, setIsGuest] = useState(user === null);
+  const updateIsGuest = () => setIsGuest(user === null);
 
-  const [isGuest, setIsGuest] = useState(true);
-  useEffect(() => {
-    setIsGuest(user === undefined);
-  }, [user]);
+  useEffect(updateIsGuest, [user]);
 
   const logout = useCallback(() => {
     if (isGuest) return;
