@@ -2,6 +2,7 @@ package auth
 
 import (
 	"net/http"
+	"strings"
 
 	"github.com/Pauloo27/archvium/model"
 	"github.com/Pauloo27/archvium/services/db"
@@ -10,9 +11,15 @@ import (
 )
 
 type RegisterPayload struct {
-	Username string `validate:"required,min=5,max=32"`
+	Username string `validate:"required,min=5,max=32,alphanum"`
 	Email    string `validate:"required,email"`
 	Password string `validate:"required,min=5,max=32"`
+}
+
+func RegisterPayloadNormalizer(pl interface{}) {
+	payload := pl.(*RegisterPayload)
+	payload.Email = strings.ToLower(payload.Email)
+	payload.Username = strings.ToLower(payload.Username)
 }
 
 func Register(ctx *fiber.Ctx) error {

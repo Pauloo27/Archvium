@@ -3,6 +3,7 @@ package auth
 import (
 	"errors"
 	"net/http"
+	"strings"
 	"time"
 
 	"github.com/Pauloo27/archvium/model"
@@ -16,6 +17,11 @@ import (
 type LoginPayload struct {
 	Username string `validate:"required,min=5,max=32"`
 	Password string `validate:"required,min=5,max=32"`
+}
+
+func LoginPayloadNormalizer(pl interface{}) {
+	payload := pl.(*LoginPayload)
+	payload.Username = strings.ToLower(payload.Username)
 }
 
 func Login(ctx *fiber.Ctx) error {

@@ -18,11 +18,13 @@ func RouteFor(app *fiber.App) {
 		requireGuest,
 		withEnvBool("AUTH_SELF_REGISTER"),
 		withPayload(new(authController.RegisterPayload)),
+		withPayloadNormalizer(authController.RegisterPayloadNormalizer),
 		authController.Register,
 	)
 	auth.Post("/login",
 		requireGuest,
 		withPayload(new(authController.LoginPayload)),
+		withPayloadNormalizer(authController.LoginPayloadNormalizer),
 		authController.Login,
 	)
 

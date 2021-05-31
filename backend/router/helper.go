@@ -14,6 +14,15 @@ func withPayload(payload interface{}) fiber.Handler {
 	return utils.ParseAndValidate(payload)
 }
 
+type Normalizer func(payload interface{})
+
+func withPayloadNormalizer(normalizer Normalizer) fiber.Handler {
+	return func(c *fiber.Ctx) error {
+		normalizer(c.Locals("payload"))
+		return c.Next()
+	}
+}
+
 func withEnv(name string) fiber.Handler {
 	return func(c *fiber.Ctx) error {
 		c.Locals("ENV_"+name, utils.Env(name))
