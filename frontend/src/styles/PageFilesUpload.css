@@ -1,0 +1,10 @@
+#container-files-upload {
+  display: flex;
+  flex-direction: column;
+  width: 50%;
+  margin: 0 auto;
+}
+
+#container-files-upload input {
+  margin: var(--margin-main);
+}

@@ -9,7 +9,8 @@ import Authed from "./components/Authed";
 import Page404 from "./pages/404";
 import PageLogin from "./pages/login";
 import PageRegister from "./pages/register";
-import PageFiles from "./pages/files";
+import PageFilesList from "./pages/files/list";
+import PageFilesUpload from "./pages/files/upload";
 import PageHome from "./pages/home";
 import useStore from "./hooks/store";
 import "./styles/theme.css";
@@ -53,9 +54,14 @@ export default function App() {
         <Route path="/" exact>
           <PageHome />
         </Route>
-        <Route path="/files" exact>
-          <Authed>
-            <PageFiles />
+        <Route path="/files/browse" exact>
+          <Authed forceRedirect>
+            <PageFilesList />
+          </Authed>
+        </Route>
+        <Route path="/files/upload" exact>
+          <Authed forceRedirect>
+            <PageFilesUpload />
           </Authed>
         </Route>
         <Route path="/login" exact>

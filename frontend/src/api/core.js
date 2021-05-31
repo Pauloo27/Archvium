@@ -5,7 +5,7 @@ export function doGuestRequest(route, options) {
 }
 
 export async function doAuthedRequest(route, options) {
-  const authedOptions = { ...options };
+  const authedOptions = { ...(options ?? {}) };
   const fullToken = store.getState().token;
 
   const token = `${fullToken.prefix} ${fullToken.token}`;
