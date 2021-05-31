@@ -29,6 +29,7 @@ func Connect(host, username, password, dbname, port string) error {
 
 func Setup() {
 	Connection.AutoMigrate(&model.User{})
+	Connection.AutoMigrate(&model.File{})
 
 	err := Connection.Create(&model.User{
 		Username: "admin",
