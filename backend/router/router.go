@@ -40,7 +40,11 @@ func RouteFor(app *fiber.App) {
 		withEnv("STORAGE_ROOT"),
 		filesController.Download,
 	)
-	//files.Delete("/:id", requireAuth, filesController.Delete)
+	files.Delete("/:id", 
+		requireAuth,
+		withEnv("STORAGE_ROOT"),
+		filesController.Delete,
+	)
 
 	users.Get("/@me", requireAuth, usersController.GetMe)
 }
