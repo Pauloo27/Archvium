@@ -29,11 +29,18 @@ func RouteFor(app *fiber.App) {
 	)
 
 	files.Post("/",
-		requireAuth, 
-		withEnv("STORAGE_ROOT"), 
+		requireAuth,
+		withEnv("STORAGE_ROOT"),
 		withEnvInt64("MAX_FILE_SIZE"),
 		filesController.Upload,
 	)
+
+	files.Get("/:id", 
+		requireAuth,
+		withEnv("STORAGE_ROOT"),
+		filesController.Download,
+	)
+	//files.Delete("/:id", requireAuth, filesController.Delete)
 
 	users.Get("/@me", requireAuth, usersController.GetMe)
 }

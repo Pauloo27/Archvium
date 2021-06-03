@@ -2,11 +2,9 @@ package files
 
 import (
 	"encoding/json"
-	"fmt"
 	"io"
 	"net/http"
 	"os"
-	"strings"
 
 	"github.com/Pauloo27/archvium/model"
 	"github.com/Pauloo27/archvium/services/db"
@@ -68,15 +66,7 @@ func Upload(c *fiber.Ctx) error {
 		return utils.AsError(c, http.StatusInternalServerError, "Something went wrong while storing the file in the db")
 	}
 
-	fmt.Println(utils.Fmt("%s/%d",
-		c.Locals("ENV_STORAGE_ROOT").(string),
-		dbFile.ID),
-	)
-
-	basePath := c.Locals("ENV_STORAGE_ROOT").(string)
-	if !strings.HasSuffix(basePath, "/") {
-		basePath += "/"
-	}
+	basePath := utils.WithSlashSuffix(c.Locals("ENV_STORAGE_ROOT").(string))
 
 	targetFile, err := os.Create(
 		utils.Fmt("%s/%d",
