@@ -29,7 +29,10 @@ func RouteFor(app *fiber.App) {
 	)
 
 	files.Post("/",
-		requireAuth, withEnv("STORAGE_ROOT"), filesController.Upload,
+		requireAuth, 
+		withEnv("STORAGE_ROOT"), 
+		withEnvInt64("MAX_FILE_SIZE"),
+		filesController.Upload,
 	)
 
 	users.Get("/@me", requireAuth, usersController.GetMe)

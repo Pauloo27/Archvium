@@ -2,6 +2,7 @@ package utils
 
 import (
 	"net/http"
+	"regexp"
 	"strings"
 
 	"github.com/go-playground/validator"
@@ -11,6 +12,16 @@ import (
 type ValidationError struct {
 	Field string `json:"field"`
 	Error string `json:"error"`
+}
+
+var wordRegex = regexp.MustCompile(`^\w+$`)
+func IsWord(str string) bool {
+	return wordRegex.MatchString(str)
+}
+
+var fileNameRegex = regexp.MustCompile(`^[\w|\.]+$`)
+func IsValidFileName(str string) bool {
+	return fileNameRegex.MatchString(str)
 }
 
 func Validate(a interface{}) *[]*ValidationError {

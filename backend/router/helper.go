@@ -37,6 +37,13 @@ func withEnvBool(name string) fiber.Handler {
 	}
 }
 
+func withEnvInt64(name string) fiber.Handler {
+	return func(c *fiber.Ctx) error {
+		c.Locals("ENV_"+name, utils.EnvInt64(name))
+		return c.Next()
+	}
+}
+
 func requireAuth(c *fiber.Ctx) error {
 	if isAuthed(c) {
 		user := c.Locals("user").(*jwt.Token)
