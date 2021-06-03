@@ -3,6 +3,7 @@ package files
 import (
 	"errors"
 	"net/http"
+	"strings"
 
 	"github.com/Pauloo27/archvium/model"
 	"github.com/Pauloo27/archvium/services/db"
@@ -11,14 +12,14 @@ import (
 	"gorm.io/gorm"
 )
 
-func GetFileFromID(c *fiber.Ctx) (*model.File, error) {
-	id, err := c.ParamsInt("id")
-	if err != nil {
-		return nil, utils.AsError(c, http.StatusBadRequest, "Invalid file id")
+func GetFileByPath(c *fiber.Ctx) (*model.File, error) {
+	path := strings.TrimPrefix(c.Path(), strings.TrimSuffix(c.Route().Path, "/*"))
+	if path == "" {
+		return nil, utils.AsError(c, http.StatusBadRequest, "Invalid file path")
 	}
 
 	var file model.File
-	err = db.Connection.First(&file, id).Error
+	err := db.Connection.First(&file, "path = ?", path).Error
 	if err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
 			return nil, utils.AsError(c, http.StatusNotFound, "File not found")

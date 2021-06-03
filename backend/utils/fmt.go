@@ -9,9 +9,6 @@ func Fmt(format string, v ...interface{}) string {
 	return fmt.Sprintf(format, v...)
 }
 
-func WithSlashSuffix(str string) string {
-	if strings.HasSuffix(str, "/") {
-		return str
-	}
-	return str + "/"
+func WithoutSlashSuffix(str string) string {
+	return strings.TrimPrefix(str, "/")
 }

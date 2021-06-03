@@ -10,19 +10,19 @@ import (
 )
 
 func Delete(c *fiber.Ctx) error {
-	file, err := GetFileFromID(c)
+	file, err := GetFileByPath(c)
 	if file == nil {
 		return err
 	}
 
-	basePath := utils.WithSlashSuffix(c.Locals("ENV_STORAGE_ROOT").(string))
+	basePath := utils.WithoutSlashSuffix(c.Locals("ENV_STORAGE_ROOT").(string))
 
 	err = db.Connection.Delete(&file).Error
 	if err != nil {
 		return utils.AsError(c, http.StatusInternalServerError, "Something went wrong while deleting file from DB")
 	}
 
-	err = os.Remove(utils.Fmt("%s%d", basePath, file.ID))
+	err = os.Remove(utils.Fmt("%s/%s", basePath, file.Path))
 	if err != nil {
 		return utils.AsError(c, http.StatusInternalServerError, "Something went wrong while deleting file from disk")
 	}

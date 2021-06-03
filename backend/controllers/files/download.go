@@ -8,14 +8,14 @@ import (
 )
 
 func Download(c *fiber.Ctx) error {
-	file, err := GetFileFromID(c)
+	file, err := GetFileByPath(c)
 	if file == nil {
 		return err
 	}
 
 	fmt.Println(file, err)
 
-	basePath := utils.WithSlashSuffix(c.Locals("ENV_STORAGE_ROOT").(string))
+	basePath := utils.WithoutSlashSuffix(c.Locals("ENV_STORAGE_ROOT").(string))
 
-	return c.SendFile(utils.Fmt("%s%d", basePath, file.ID), true)
+	return c.SendFile(basePath+file.Path, true)
 }

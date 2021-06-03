@@ -67,7 +67,7 @@ func Upload(c *fiber.Ctx) error {
 		return utils.AsError(c, http.StatusInternalServerError, "Something went wrong while storing the file in the db")
 	}
 
-	basePath := utils.WithSlashSuffix(c.Locals("ENV_STORAGE_ROOT").(string))
+	basePath := utils.WithoutSlashSuffix(c.Locals("ENV_STORAGE_ROOT").(string))
 
 	err = os.MkdirAll(basePath+foldersOnlyPath, 0700)
 
@@ -75,7 +75,7 @@ func Upload(c *fiber.Ctx) error {
 		return utils.AsError(c, http.StatusInternalServerError, "Something went wrong while creating folders")
 	}
 
-	targetFile, err := os.Create(basePath + fullPath)
+	targetFile, err := os.Create(utils.Fmt("%s/%s", basePath, dbFile.Path))
 	if err != nil {
 		return utils.AsError(c, http.StatusInternalServerError, "Something went wrong while opening the target file")
 	}

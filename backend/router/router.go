@@ -34,12 +34,12 @@ func RouteFor(app *fiber.App) {
 		withEnvInt64("MAX_FILE_SIZE"),
 		filesController.Upload,
 	)
-	files.Get("/:id", 
+	files.Get("/*",
 		requireAuth,
 		withEnv("STORAGE_ROOT"),
 		filesController.Download,
 	)
-	files.Delete("/:id", 
+	files.Delete("/*", 
 		requireAuth,
 		withEnv("STORAGE_ROOT"),
 		filesController.Delete,
