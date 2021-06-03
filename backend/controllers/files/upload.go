@@ -24,7 +24,7 @@ func Upload(c *fiber.Ctx) error {
 		return utils.AsError(c, http.StatusBadRequest, utils.Fmt("Max file size is %d bytes", maxFileSize))
 	}
 
-	path := utils.Fmt("/%s/", c.Locals("user_name"))
+	fullPath := utils.Fmt("/%s/", c.Locals("user_name"))
 
 	folderTree := c.FormValue("target_folder")
 
@@ -38,7 +38,7 @@ func Upload(c *fiber.Ctx) error {
 			if !utils.IsWord(folder) {
 				return utils.AsError(c, http.StatusBadRequest, "Invalid folder name "+folder)
 			}
-			path += utils.Fmt("%s/", folder)
+			fullPath += utils.Fmt("%s/", folder)
 		}
 	}
 
@@ -46,7 +46,8 @@ func Upload(c *fiber.Ctx) error {
 		return utils.AsError(c, http.StatusBadRequest, "Invalid file name "+file.Filename)
 	}
 
-	path += file.Filename
+	foldersOnlyPath := fullPath
+	fullPath += file.Filename
 
 	sourceFile, err := file.Open()
 	if err != nil {
@@ -54,7 +55,7 @@ func Upload(c *fiber.Ctx) error {
 	}
 
 	dbFile := model.File{
-		Path:    path,
+		Path:    fullPath,
 		OwnerID: c.Locals("user_id").(int),
 	}
 
@@ -68,11 +69,13 @@ func Upload(c *fiber.Ctx) error {
 
 	basePath := utils.WithSlashSuffix(c.Locals("ENV_STORAGE_ROOT").(string))
 
-	targetFile, err := os.Create(
-		utils.Fmt("%s/%d",
-			basePath,
-			dbFile.ID),
-	)
+	err = os.MkdirAll(basePath+foldersOnlyPath, 0700)
+
+	if err != nil {
+		return utils.AsError(c, http.StatusInternalServerError, "Something went wrong while creating folders")
+	}
+
+	targetFile, err := os.Create(basePath + fullPath)
 	if err != nil {
 		return utils.AsError(c, http.StatusInternalServerError, "Something went wrong while opening the target file")
 	}

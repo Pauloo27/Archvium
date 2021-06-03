@@ -34,7 +34,6 @@ func RouteFor(app *fiber.App) {
 		withEnvInt64("MAX_FILE_SIZE"),
 		filesController.Upload,
 	)
-
 	files.Get("/:id", 
 		requireAuth,
 		withEnv("STORAGE_ROOT"),
