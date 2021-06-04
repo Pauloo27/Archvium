@@ -17,7 +17,7 @@ func Delete(c *fiber.Ctx) error {
 
 	basePath := utils.WithoutSlashSuffix(c.Locals("ENV_STORAGE_ROOT").(string))
 
-	err = db.Connection.Delete(&file).Error
+	err = db.Connection.Unscoped().Delete(&file).Error
 	if err != nil {
 		return utils.AsError(c, http.StatusInternalServerError, "Something went wrong while deleting file from DB")
 	}

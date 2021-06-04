@@ -88,5 +88,5 @@ func Upload(c *fiber.Ctx) error {
 		return utils.AsError(c, http.StatusInternalServerError, "Something went wronge while copying source to target file")
 	}
 
-	return utils.AsJSON(c, http.StatusCreated, fiber.Map{"id": dbFile.ID})
+	return utils.AsJSON(c, http.StatusCreated, dbFile.ToDto())
 }

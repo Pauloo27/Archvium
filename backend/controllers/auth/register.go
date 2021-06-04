@@ -28,11 +28,11 @@ func Register(ctx *fiber.Ctx) error {
 	}
 
 	payload := ctx.Locals("payload").(*RegisterPayload)
-	newUser := model.User{
+	user := model.User{
 		Email: payload.Email, Password: payload.Password, Username: payload.Username,
 	}
 
-	err := db.Connection.Create(&newUser).Error
+	err := db.Connection.Create(&user).Error
 	if err != nil {
 		if utils.IsNotUnique(err) {
 			return utils.AsError(ctx, http.StatusConflict, err.Error())
@@ -41,5 +41,5 @@ func Register(ctx *fiber.Ctx) error {
 		}
 	}
 
-	return utils.AsJSON(ctx, http.StatusCreated, fiber.Map{"id": newUser.ID})
+	return utils.AsJSON(ctx, http.StatusCreated, user.ToDto())
 }
