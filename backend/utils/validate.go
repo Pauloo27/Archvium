@@ -15,13 +15,32 @@ type ValidationError struct {
 }
 
 var wordRegex = regexp.MustCompile(`^\w+$`)
+
 func IsWord(str string) bool {
 	return wordRegex.MatchString(str)
 }
 
 var fileNameRegex = regexp.MustCompile(`^[\w|\.]+$`)
+
 func IsValidFileName(str string) bool {
 	return fileNameRegex.MatchString(str)
+}
+
+func IsNotUnique(err error) bool {
+	// FIXME
+	// There's no gorm.ErrUnique... so... raw string check?
+	return strings.HasPrefix(err.Error(), "ERROR: duplicate key value")
+}
+
+var duplicatedKeyRegex = regexp.MustCompile(`"\w+_(\w+)_key"`)
+
+func GetDuplicatedKey(err error) string {
+	if !IsNotUnique(err) {
+		return ""
+	}
+	match := duplicatedKeyRegex.FindStringSubmatch(err.Error())
+
+	return match[1]
 }
 
 func Validate(a interface{}) *[]*ValidationError {
@@ -66,10 +85,4 @@ func ParseAndValidate(payload interface{}) fiber.Handler {
 		ctx.Locals("payload", payload)
 		return ctx.Next()
 	}
-}
-
-func IsNotUnique(err error) bool {
-	// FIXME
-	// There's no gorm.ErrUnique... so... raw string check?
-	return strings.HasPrefix(err.Error(), "ERROR: duplicate key value")
 }

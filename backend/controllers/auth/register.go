@@ -35,7 +35,9 @@ func Register(ctx *fiber.Ctx) error {
 	err := db.Connection.Create(&user).Error
 	if err != nil {
 		if utils.IsNotUnique(err) {
-			return utils.AsError(ctx, http.StatusConflict, err.Error())
+			return utils.AsError(ctx, http.StatusConflict, utils.Fmt(
+				"%s already in use", utils.GetDuplicatedKey(err),
+			))
 		} else {
 			return utils.AsError(ctx, http.StatusInternalServerError, err.Error())
 		}
