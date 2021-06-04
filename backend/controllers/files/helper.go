@@ -19,7 +19,7 @@ func GetFileByPath(c *fiber.Ctx) (*model.File, error) {
 	}
 
 	var file model.File
-	err := db.Connection.First(&file, "path = ?", path).Error
+	err := db.Connection.First(&file, "path = ? AND is_folder = false", path).Error
 	if err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
 			return nil, utils.AsError(c, http.StatusNotFound, "File not found")
