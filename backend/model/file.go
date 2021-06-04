@@ -8,4 +8,5 @@ type File struct {
 	OwnerID int    `gorm:"index;not null"`
 	Owner   User
 	Notes   string
+	Size    int64
 }

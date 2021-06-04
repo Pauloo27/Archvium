@@ -56,6 +56,7 @@ func Upload(c *fiber.Ctx) error {
 
 	dbFile := model.File{
 		Path:    fullPath,
+		Size:    file.Size,
 		OwnerID: c.Locals("user_id").(int),
 	}
 
