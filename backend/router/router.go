@@ -4,6 +4,7 @@ import (
 	authController "github.com/Pauloo27/archvium/controllers/auth"
 	filesController "github.com/Pauloo27/archvium/controllers/files"
 	usersController "github.com/Pauloo27/archvium/controllers/users"
+	foldersController "github.com/Pauloo27/archvium/controllers/folders"
 	"github.com/gofiber/fiber/v2"
 )
 
@@ -13,6 +14,7 @@ func RouteFor(app *fiber.App) {
 	auth := v1.Group("/auth")
 	users := v1.Group("/users")
 	files := v1.Group("/files")
+	folders := v1.Group("/folders")
 
 	auth.Post("/register",
 		requireGuest,
@@ -34,7 +36,12 @@ func RouteFor(app *fiber.App) {
 		withEnvInt64("MAX_FILE_SIZE"),
 		filesController.Upload,
 	)
-	files.Get("/*",
+	files.Get("/info/*",
+		requireAuth,
+		withEnv("STORAGE_ROOT"),
+		filesController.Info,
+	)
+	files.Get("/download/*",
 		requireAuth,
 		withEnv("STORAGE_ROOT"),
 		filesController.Download,
@@ -43,6 +50,12 @@ func RouteFor(app *fiber.App) {
 		requireAuth,
 		withEnv("STORAGE_ROOT"),
 		filesController.Delete,
+	)
+
+	folders.Get("/",
+		requireAuth,
+		withEnv("STORAGE_ROOT"),
+		foldersController.Index,
 	)
 
 	users.Get("/@me", requireAuth, usersController.GetMe)

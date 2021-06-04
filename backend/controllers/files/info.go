@@ -1,17 +1,17 @@
 package files
 
 import (
+	"net/http"
+
 	"github.com/Pauloo27/archvium/utils"
 	"github.com/gofiber/fiber/v2"
 )
 
-func Download(c *fiber.Ctx) error {
+func Info(c *fiber.Ctx) error {
 	file, err := GetFileByPath(c)
 	if file == nil {
 		return err
 	}
 
-	basePath := utils.WithoutSlashSuffix(c.Locals("ENV_STORAGE_ROOT").(string))
-
-	return c.SendFile(basePath+file.Path, true)
+	return utils.AsJSON(c, http.StatusOK, file.ToDto())
 }
