@@ -3,7 +3,6 @@ package files
 import (
 	"errors"
 	"net/http"
-	"strings"
 
 	"github.com/Pauloo27/archvium/model"
 	"github.com/Pauloo27/archvium/services/db"
@@ -13,7 +12,7 @@ import (
 )
 
 func GetFileByPath(c *fiber.Ctx) (*model.File, error) {
-	path := strings.TrimPrefix(c.Path(), strings.TrimSuffix(c.Route().Path, "/*"))
+	path := utils.GetTargetPath(c)
 	if path == "" {
 		return nil, utils.AsError(c, http.StatusBadRequest, "Invalid file path")
 	}

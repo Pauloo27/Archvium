@@ -9,6 +9,34 @@ import (
 	"github.com/gofiber/fiber/v2"
 )
 
+func ParsePath(str string) (valid bool, username, fullPath string) {
+	// check for a / prefix
+	if !strings.HasPrefix(str, "/") {
+		return false, "", ""
+	}
+	// now, remove it to avoid a empty string when splitting
+	str = strings.TrimPrefix(str, "/")
+
+	for i, folder := range strings.Split(str, "/") {
+		if !IsWord(folder) {
+			return false, "", ""
+		}
+
+		if i == 0 {
+			username = folder
+		}
+		fullPath += folder + "/"
+	}
+	// i've forgot to change valid to true...
+	// and spend 30 minutes trying to understrand why it wasnt working...
+	/* look at it */
+	valid = true // that one line. it could've saved me 30 minutes...
+	// naming the variables in the function signature is great for readability
+	// but if YOU (aka ME cuz nobody's going to read this)
+	// forget about it... it makes you question your life choises
+	return
+}
+
 type ValidationError struct {
 	Field string `json:"field"`
 	Error string `json:"error"`

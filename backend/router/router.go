@@ -52,7 +52,7 @@ func RouteFor(app *fiber.App) {
 		filesController.Delete,
 	)
 
-	folders.Get("/",
+	folders.Get("/index/*",
 		requireAuth,
 		withEnv("STORAGE_ROOT"),
 		foldersController.Index,
