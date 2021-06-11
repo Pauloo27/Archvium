@@ -30,5 +30,6 @@ func GetFileByPath(c *fiber.Ctx) (string, error) {
 	if stat.IsDir() {
 		return "", utils.AsError(c, http.StatusBadRequest, "The target file is actually a folder")
 	}
+
 	return fullPath, nil
 }

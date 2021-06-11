@@ -1,25 +1,30 @@
 package folders
 
 import (
-	"fmt"
 	"net/http"
+	"os"
 
 	"github.com/Pauloo27/archvium/utils"
 	"github.com/gofiber/fiber/v2"
 )
 
 func Index(c *fiber.Ctx) error {
-	valid, username, fullPath := utils.ParsePath(utils.GetTargetPath(c))
-	if !valid {
-		return utils.AsError(c, http.StatusBadRequest, "Invalid path")
+	path, err := GetFolderByPath(c)
+	if path == "" {
+		return err
 	}
 
-	if username != c.Locals("user_name") {
-		return utils.AsError(c, http.StatusForbidden, "You can't see that folder")
+	basePath := utils.WithoutSlashSuffix(c.Locals("ENV_STORAGE_ROOT").(string))
+	files, err := os.ReadDir(basePath + path)
+	if err != nil {
+		return utils.AsError(c, http.StatusInternalServerError, "Cannot list files in folder")
 	}
 
-	// TODO: find in db...
-	fmt.Println(fullPath)
+	var filesName []string
 
-	return c.SendString("hello")
+	for _, file := range files {
+		filesName = append(filesName, file.Name())
+	}
+
+	return c.JSON(filesName)
 }
