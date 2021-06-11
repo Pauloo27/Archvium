@@ -6,8 +6,6 @@ import (
 	"net/http"
 	"os"
 
-	"github.com/Pauloo27/archvium/model"
-	"github.com/Pauloo27/archvium/services/db"
 	"github.com/Pauloo27/archvium/utils"
 	"github.com/gofiber/fiber/v2"
 )
@@ -54,21 +52,6 @@ func Upload(c *fiber.Ctx) error {
 		return utils.AsError(c, http.StatusInternalServerError, "Something went wrong while opening the source file")
 	}
 
-	dbFile := model.File{
-		Path:     fullPath,
-		IsFolder: false,
-		Size:     file.Size,
-		OwnerID:  c.Locals("user_id").(int),
-	}
-
-	err = db.Connection.Save(&dbFile).Error
-	if err != nil {
-		if utils.IsNotUnique(err) {
-			return utils.AsError(c, http.StatusConflict, "File alread exists (probably)")
-		}
-		return utils.AsError(c, http.StatusInternalServerError, "Something went wrong while storing the file in the db")
-	}
-
 	basePath := utils.WithoutSlashSuffix(c.Locals("ENV_STORAGE_ROOT").(string))
 
 	err = os.MkdirAll(basePath+foldersOnlyPath, 0700)
@@ -77,7 +60,8 @@ func Upload(c *fiber.Ctx) error {
 		return utils.AsError(c, http.StatusInternalServerError, "Something went wrong while creating folders")
 	}
 
-	targetFile, err := os.Create(utils.Fmt("%s/%s", basePath, dbFile.Path))
+	realPath := utils.Fmt("%s/%s", basePath, fullPath)
+	targetFile, err := os.Create(realPath)
 	if err != nil {
 		return utils.AsError(c, http.StatusInternalServerError, "Something went wrong while opening the target file")
 	}
@@ -89,5 +73,9 @@ func Upload(c *fiber.Ctx) error {
 		return utils.AsError(c, http.StatusInternalServerError, "Something went wronge while copying source to target file")
 	}
 
-	return utils.AsJSON(c, http.StatusCreated, dbFile.ToDto())
+	info, err := utils.GetFileInfo(realPath)
+	if err != nil {
+		return utils.AsError(c, http.StatusInternalServerError, "Something went wrong while getting file info")
+	}
+	return utils.AsJSON(c, http.StatusCreated, *info)
 }

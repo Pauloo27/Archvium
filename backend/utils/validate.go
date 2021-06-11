@@ -1,6 +1,7 @@
 package utils
 
 import (
+	"fmt"
 	"net/http"
 	"regexp"
 	"strings"
@@ -9,7 +10,15 @@ import (
 	"github.com/gofiber/fiber/v2"
 )
 
-func ParsePath(str string) (valid bool, username, fullPath string) {
+func ParseFilePath(str string) (valid bool, username, fullPath string) {
+	return parsePath(str, true)
+}
+
+func ParseFolderPath(str string) (valid bool, username, fullPath string) {
+	return parsePath(str, false)
+}
+
+func parsePath(str string, isFile bool) (valid bool, username, fullPath string) {
 	// check for a / prefix
 	if !strings.HasPrefix(str, "/") {
 		return false, "", ""
@@ -17,15 +26,20 @@ func ParsePath(str string) (valid bool, username, fullPath string) {
 	// now, remove it to avoid a empty string when splitting
 	str = strings.TrimPrefix(str, "/")
 
-	for i, folder := range strings.Split(str, "/") {
+	splittedStr := strings.Split(str, "/")
+
+	for i, folder := range splittedStr {
 		if !IsWord(folder) {
-			return false, "", ""
+			if !isFile || len(splittedStr)-1 != i || !IsValidFileName(folder) {
+				fmt.Println(folder)
+				return false, "", ""
+			}
 		}
 
 		if i == 0 {
 			username = folder
 		}
-		fullPath += folder + "/"
+		fullPath += "/" + folder
 	}
 	// i've forgot to change valid to true...
 	// and spend 30 minutes trying to understrand why it wasnt working...

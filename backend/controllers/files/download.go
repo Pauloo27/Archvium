@@ -6,12 +6,12 @@ import (
 )
 
 func Download(c *fiber.Ctx) error {
-	file, err := GetFileByPath(c)
-	if file == nil {
+	path, err := GetFileByPath(c)
+	if path == "" {
 		return err
 	}
 
 	basePath := utils.WithoutSlashSuffix(c.Locals("ENV_STORAGE_ROOT").(string))
 
-	return c.SendFile(basePath+file.Path, true)
+	return c.SendFile(basePath+path, true)
 }

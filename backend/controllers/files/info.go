@@ -8,10 +8,17 @@ import (
 )
 
 func Info(c *fiber.Ctx) error {
-	file, err := GetFileByPath(c)
-	if file == nil {
+	path, err := GetFileByPath(c)
+	if path == "" {
 		return err
 	}
 
-	return utils.AsJSON(c, http.StatusOK, file.ToDto())
+	basePath := utils.WithoutSlashSuffix(c.Locals("ENV_STORAGE_ROOT").(string))
+	realPath := utils.Fmt("%s/%s", basePath, path)
+
+	info, err := utils.GetFileInfo(realPath)
+	if err != nil {
+		return utils.AsError(c, http.StatusInternalServerError, "Something went wrong while getting file info")
+	}
+	return utils.AsJSON(c, http.StatusOK, *info)
 }
