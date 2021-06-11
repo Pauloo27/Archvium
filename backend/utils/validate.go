@@ -26,6 +26,9 @@ func parsePath(str string, isFile bool) (valid bool, username, fullPath string) 
 	// now, remove it to avoid a empty string when splitting
 	str = strings.TrimPrefix(str, "/")
 
+	// also remove any / at the end
+	str = strings.TrimSuffix(str, "/")
+
 	splittedStr := strings.Split(str, "/")
 
 	for i, folder := range splittedStr {
