@@ -1,7 +1,6 @@
 package utils
 
 import (
-	"fmt"
 	"net/http"
 	"regexp"
 	"strings"
@@ -34,7 +33,6 @@ func parsePath(str string, isFile bool) (valid bool, username, fullPath string) 
 	for i, folder := range splittedStr {
 		if !IsWord(folder) {
 			if !isFile || len(splittedStr)-1 != i || !IsValidFileName(folder) {
-				fmt.Println(folder)
 				return false, "", ""
 			}
 		}
