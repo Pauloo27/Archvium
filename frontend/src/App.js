@@ -21,9 +21,7 @@ export default function App() {
   const update = useStore((state) => state.update);
   const token = useStore((state) => state.token);
 
-  useStore.subscribe(() => {
-    setLoaded(true);
-  }, (state) => state.user);
+  useStore.subscribe(() => setLoaded(true), (state) => state.user);
 
   // load token from sessionStorage
   useEffect(() => {
@@ -36,7 +34,7 @@ export default function App() {
   }, [update]);
 
   useEffect(() => {
-    if (token === undefined) return;
+    if (!token) return;
     doRequest("/users/@me", {})
       .then((res) => {
         if (res.status === 200) {
