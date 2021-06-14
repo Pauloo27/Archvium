@@ -52,7 +52,7 @@ export default function App() {
         <Route path="/" exact>
           <PageHome />
         </Route>
-        <Route path="/files/browse" exact>
+        <Route path="/files/browse/*">
           <Authed forceRedirect>
             <PageFilesList />
           </Authed>

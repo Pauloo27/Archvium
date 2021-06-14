@@ -21,5 +21,7 @@ export default function useAuth() {
     update("token", token);
   }, [update]);
 
-  return { isGuest, logout, setToken };
+  return {
+    isGuest, logout, setToken, user,
+  };
 }

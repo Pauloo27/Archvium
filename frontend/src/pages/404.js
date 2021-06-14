@@ -4,7 +4,7 @@ import "../styles/Page404.css";
 export default function Page404() {
   return (
     <main id="container-404">
-      <h1 id="title">The page you are looking for was not found...</h1>
+      <h1 id="title">The thing you are looking for was not found...</h1>
       <img alt="A cat hidden in a stack of paper and 404: Not found text" src="https://http.cat/404" id="img" />
       <div id="text-container">
         <h3>Murphy&quot;s laws:</h3>
