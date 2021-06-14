@@ -73,7 +73,7 @@ func Upload(c *fiber.Ctx) error {
 		return utils.AsError(c, http.StatusInternalServerError, "Something went wronge while copying source to target file")
 	}
 
-	info, err := utils.GetFileInfo(realPath)
+	info, err := utils.GetFileInfo(basePath, fullPath)
 	if err != nil {
 		return utils.AsError(c, http.StatusInternalServerError, "Something went wrong while getting file info")
 	}

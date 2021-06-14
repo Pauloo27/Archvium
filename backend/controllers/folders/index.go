@@ -23,7 +23,7 @@ func Index(c *fiber.Ctx) error {
 	var filesInfo = []*fiber.Map{}
 
 	for _, file := range files {
-		info, err := utils.GetFileInfo(basePath + path + "/" + file.Name())
+		info, err := utils.GetFileInfo(basePath, path + "/" + file.Name())
 		if err != nil {
 			return utils.AsError(c, http.StatusInternalServerError, "Cannot get file info")
 		}

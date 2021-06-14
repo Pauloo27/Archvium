@@ -14,9 +14,8 @@ func Info(c *fiber.Ctx) error {
 	}
 
 	basePath := utils.WithoutSlashSuffix(c.Locals("ENV_STORAGE_ROOT").(string))
-	realPath := utils.Fmt("%s/%s", basePath, path)
 
-	info, err := utils.GetFileInfo(realPath)
+	info, err := utils.GetFileInfo(basePath, path)
 	if err != nil {
 		return utils.AsError(c, http.StatusInternalServerError, "Something went wrong while getting file info")
 	}

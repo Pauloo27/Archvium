@@ -17,11 +17,17 @@ func GetTargetPath(c *fiber.Ctx) string {
 }
 
 func WithoutSlashSuffix(str string) string {
+	return strings.TrimSuffix(str, "/")
+}
+
+func WithoutSlashPrefix(str string) string {
 	return strings.TrimPrefix(str, "/")
 }
 
-func GetFileInfo(path string) (*fiber.Map, error) {
-	stat, err := os.Stat(path)
+func GetFileInfo(basePath, path string) (*fiber.Map, error) {
+	basePath = WithoutSlashSuffix(basePath)
+	path = WithoutSlashPrefix(path)
+	stat, err := os.Stat(basePath+"/"+path)
 	if err != nil {
 		return nil, err
 	}
@@ -31,5 +37,6 @@ func GetFileInfo(path string) (*fiber.Map, error) {
 		"isDir":      stat.IsDir(),
 		"modifiedAt": stat.ModTime(),
 		"size":       stat.Size(),
+		"path":       "/"+path,
 	}, nil
 }
