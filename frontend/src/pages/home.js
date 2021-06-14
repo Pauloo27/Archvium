@@ -1,6 +1,7 @@
 import React from "react";
 import useAuth from "../hooks/auth";
 import useStore from "../hooks/store";
+import Button from "../components/Button";
 
 export default function PageHome() {
   const user = useStore((state) => state.user);
@@ -18,12 +19,13 @@ export default function PageHome() {
     );
   }
   return (
-    <h1>
-      I see you are
-      {" "}
-      {user.username}
-      {" "}
-      nice
-    </h1>
+    <>
+      <h1>
+        Hello
+        {" "}
+        {user.username}
+      </h1>
+      <Button to="/files/browse/" kind="success" name="See your files" />
+    </>
   );
 }

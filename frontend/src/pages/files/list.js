@@ -16,6 +16,7 @@ export default function PageFilesList() {
 
   useEffect(() => {
     if (!user) return;
+    setFiles(undefined);
     doRequest(`/folders/index/${user.username}/${path}`, {})
       .then((res) => {
         if (res.status === 404 || res.status === 400) { return setFiles(null); }

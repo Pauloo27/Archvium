@@ -17,8 +17,9 @@ export default function PageFilesUpload() {
       return;
     }
 
-    // TODO: all selected files
+    // TODO: more than one file
     formData.append("file", fileRef.current.files[0]);
+    formData.append("target_folder", JSON.stringify(["test_asd", "something"]));
 
     doRequest("/files/", { method: "POST", body: formData });
   });
