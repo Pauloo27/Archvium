@@ -20,11 +20,15 @@ func Index(c *fiber.Ctx) error {
 		return utils.AsError(c, http.StatusInternalServerError, "Cannot list files in folder")
 	}
 
-	var filesName []string
+	var filesInfo = []*fiber.Map{}
 
 	for _, file := range files {
-		filesName = append(filesName, file.Name())
+		info, err := utils.GetFileInfo(basePath + path + "/" + file.Name())
+		if err != nil {
+			return utils.AsError(c, http.StatusInternalServerError, "Cannot get file info")
+		}
+		filesInfo = append(filesInfo, info)
 	}
 
-	return c.JSON(filesName)
+	return c.JSON(filesInfo)
 }
