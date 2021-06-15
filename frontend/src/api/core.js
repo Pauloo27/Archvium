@@ -9,7 +9,7 @@ export async function doAuthedRequest(route, options) {
   const fullToken = store.getState().token;
 
   const token = `${fullToken.prefix} ${fullToken.token}`;
-  if (options.headers === undefined) {
+  if (options === undefined || options.headers === undefined) {
     authedOptions.headers = { Authorization: token };
   } else {
     authedOptions.headers.Authorization = token;

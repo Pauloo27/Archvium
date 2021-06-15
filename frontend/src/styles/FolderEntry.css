@@ -1,14 +1,23 @@
-.folder-entry {
+.folder-entry-container {
+  margin: var(--margin-alt);
   display: flex;
   justify-content: center;
-  align-items: center;
-  margin: var(--margin-alt);
 }
 
 .folder-entry-icon {
-  margin-right: var(--margin-alt);
+  margin: 0 var(--margin-alt);
 }
 
 .folder-entry-link {
   text-decoration: none !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.folder-entry-download {
+  cursor: pointer;
+  border: none;
+  background: none;
+  color: var(--text-main);
 }
