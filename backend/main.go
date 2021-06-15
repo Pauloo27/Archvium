@@ -1,12 +1,16 @@
 package main
 
 import (
+	"strings"
+	"time"
+
 	"github.com/Pauloo27/archvium/logger"
 	"github.com/Pauloo27/archvium/router"
 	"github.com/Pauloo27/archvium/services/db"
 	"github.com/Pauloo27/archvium/utils"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
+	"github.com/gofiber/fiber/v2/middleware/limiter"
 	jwtware "github.com/gofiber/jwt/v2"
 	"github.com/joho/godotenv"
 )
@@ -33,6 +37,22 @@ func main() {
 		SigningKey: []byte(utils.EnvString("AUTH_JWT_SECRET")),
 		ErrorHandler: func(c *fiber.Ctx, err error) error {
 			return c.Next()
+		},
+	}))
+
+	// Or extend your config for customization
+	app.Use(limiter.New(limiter.Config{
+		Next: func(c *fiber.Ctx) bool {
+			return !strings.HasPrefix(c.Path(), "/v1/auth/login")
+		},
+		Max:        10,
+		Expiration: 1 * time.Minute,
+		KeyGenerator: func(c *fiber.Ctx) string {
+			if utils.EnvBool("IS_PROXIED") {
+				return c.Get("x-forwarded-for")
+			} else {
+				return c.IP()
+			}
 		},
 	}))
 
