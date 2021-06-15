@@ -13,5 +13,5 @@ func Download(c *fiber.Ctx) error {
 
 	basePath := utils.WithoutSlashSuffix(c.Locals("ENV_STORAGE_ROOT").(string))
 
-	return c.SendFile(basePath+path, true)
+	return c.SendFile(basePath+path, false)
 }
