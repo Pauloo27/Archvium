@@ -20,3 +20,11 @@ body {
 a {
   color: var(--link-color);
 }
+
+.no-decoration {
+  text-decoration: none;
+}
+
+.margin-main {
+  margin: var(--margin-main);
+}
