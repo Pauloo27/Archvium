@@ -1,0 +1,14 @@
+.folder-entry {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: var(--margin-alt);
+}
+
+.folder-entry-icon {
+  margin-right: var(--margin-alt);
+}
+
+.folder-entry-link {
+  text-decoration: none !important;
+}
