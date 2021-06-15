@@ -23,3 +23,7 @@ pack: dist
 # fiber dev (with hot reload)
 dev:
 	fiber dev
+
+# open inside a screen
+screen:
+	screen -dmS archvium_back make run
