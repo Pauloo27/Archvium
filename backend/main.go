@@ -27,7 +27,9 @@ func init() {
 }
 
 func main() {
-	app := fiber.New()
+	app := fiber.New(fiber.Config{
+		BodyLimit: int(utils.EnvInt64("MAX_FILE_SIZE")),
+	})
 
 	app.Use(cors.New(cors.Config{
 		AllowOrigins: utils.EnvString("FRONTEND_URL"),
