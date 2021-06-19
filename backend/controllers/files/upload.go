@@ -25,6 +25,7 @@ func Upload(c *fiber.Ctx) error {
 	fullPath := utils.Fmt("/%s/", c.Locals("user_name"))
 
 	folderTree := c.FormValue("target_folder")
+	fileName := c.FormValue("file_name")
 
 	if folderTree != "" {
 		var folderList []string
@@ -32,20 +33,22 @@ func Upload(c *fiber.Ctx) error {
 		if err != nil {
 			return utils.AsError(c, http.StatusBadRequest, "target_folder needes to be a json string array")
 		}
-		for _, folder := range folderList {
-			if !utils.IsWord(folder) {
-				return utils.AsError(c, http.StatusBadRequest, "Invalid folder name "+folder)
+		if len(folderList) != 0 {
+			for _, folder := range folderList {
+				if !utils.IsWord(folder) {
+					return utils.AsError(c, http.StatusBadRequest, "Invalid folder name "+folder)
+				}
+				fullPath += utils.Fmt("%s/", folder)
 			}
-			fullPath += utils.Fmt("%s/", folder)
 		}
 	}
 
-	if !utils.IsValidFileName(file.Filename) {
-		return utils.AsError(c, http.StatusBadRequest, "Invalid file name "+file.Filename)
+	if !utils.IsValidFileName(fileName) {
+		return utils.AsError(c, http.StatusBadRequest, "Invalid file name "+fileName)
 	}
 
 	foldersOnlyPath := fullPath
-	fullPath += file.Filename
+	fullPath += fileName
 
 	sourceFile, err := file.Open()
 	if err != nil {
