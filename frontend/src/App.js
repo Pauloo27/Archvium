@@ -57,7 +57,7 @@ export default function App() {
             <PageFilesList />
           </Authed>
         </Route>
-        <Route path="/files/upload" exact>
+        <Route path="/files/upload/*">
           <Authed forceRedirect>
             <PageFilesUpload />
           </Authed>

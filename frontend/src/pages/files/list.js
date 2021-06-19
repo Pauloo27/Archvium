@@ -5,6 +5,7 @@ import useAuth from "../../hooks/auth";
 import Page404 from "../404";
 import FolderEntry from "../../components/FolderEntry";
 import FolderPath from "../../components/FolderPath";
+import Button from "../../components/Button";
 
 export default function PageFilesList() {
   const route = useRouteMatch();
@@ -34,7 +35,15 @@ export default function PageFilesList() {
 
   return (
     <>
-      <FolderPath path={path} />
+      <div className="margin-main">
+        <Button
+          name="Upload new"
+          kind="success"
+          type="button"
+          to={`/files/upload/${path}`}
+        />
+        <FolderPath path={path} />
+      </div>
       <ul>
         {files.map((file) => (
           <li key={file.name}>
