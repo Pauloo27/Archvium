@@ -19,12 +19,14 @@ export default function FolderEntry({ file }) {
 
   const asFile = () => (
     <>
-      <Link to="/files/info/" className="folder-entry-link">
-        <span className="material-icons-outlined folder-entry-icon">
-          description
-        </span>
-        {file.name}
-      </Link>
+      {// <Link to="/files/info/" className="folder-entry-link">//
+      }
+      <span className="material-icons-outlined folder-entry-icon">
+        description
+      </span>
+      {file.name}
+      {// </Link>
+      }
       <button
         onClick={handleDownload}
         className="material-icons-outlined folder-entry-icon folder-entry-download"

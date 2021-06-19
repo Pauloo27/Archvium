@@ -10,6 +10,7 @@ import Page404 from "./pages/404";
 import PageLogin from "./pages/login";
 import PageRegister from "./pages/register";
 import PageFilesList from "./pages/files/list";
+import PageNewFolder from "./pages/files/new_folder";
 import PageFilesUpload from "./pages/files/upload";
 import PageHome from "./pages/home";
 import useStore from "./hooks/store";
@@ -60,6 +61,11 @@ export default function App() {
         <Route path="/files/upload/*">
           <Authed forceRedirect>
             <PageFilesUpload />
+          </Authed>
+        </Route>
+        <Route path="/files/newfolder/*">
+          <Authed forceRedirect>
+            <PageNewFolder />
           </Authed>
         </Route>
         <Route path="/login" exact>

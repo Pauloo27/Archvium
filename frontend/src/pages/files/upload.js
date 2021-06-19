@@ -53,7 +53,13 @@ export default function PageFilesUpload() {
         ) : undefined}
       <form id="container-files-upload" onSubmit={handleSubmit}>
         <h1>Upload a file</h1>
-        <input ref={fileRef} type="file" placeholder="File to upload" name="file" />
+        <input
+          className="input"
+          ref={fileRef}
+          type="file"
+          placeholder="File to upload"
+          name="file"
+        />
         <Button name="Upload" kind="success" type="submit" />
       </form>
     </>

@@ -56,12 +56,14 @@ export default function PageLogin() {
           placeholder="Username"
           ref={usernameRef}
           autoComplete="off"
+          className="input"
         />
         <input
           name="password"
           type="password"
           placeholder="Password"
           ref={passRef}
+          className="input"
         />
         <span>
           Don&quot;t have a account yet?

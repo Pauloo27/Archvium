@@ -58,6 +58,7 @@ export default function PageRegister() {
           placeholder="Username"
           ref={usernameRef}
           autoComplete="off"
+          className="input"
         />
         <input
           name="email"
@@ -65,18 +66,21 @@ export default function PageRegister() {
           placeholder="E-mail"
           ref={emailRef}
           autoComplete="off"
+          className="input"
         />
         <input
           name="password"
           type="password"
           placeholder="Password"
           ref={passRef}
+          className="input"
         />
         <input
           name="repeat password"
           type="password"
           placeholder="Repeat password"
           ref={rePassRef}
+          className="input"
         />
         <span>
           Already have a account?

@@ -41,6 +41,14 @@ export default function PageFilesList() {
           kind="success"
           type="button"
           to={`/files/upload/${path}`}
+          className="margin-main"
+        />
+        <Button
+          name="New folder"
+          kind="success"
+          type="button"
+          to={`/files/newfolder/${path}`}
+          className="margin-main"
         />
         <FolderPath path={path} />
       </div>

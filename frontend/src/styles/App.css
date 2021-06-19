@@ -28,3 +28,16 @@ a {
 .margin-main {
   margin: var(--margin-main);
 }
+
+.input {
+  font-size: var(--text-size-m);
+  background-color: var(--bg-alt);
+  color: var(--text-main);
+  padding: var(--padding-main);
+  margin: var(--margin-main);
+  border: none;
+}
+
+.input::placeholder {
+  color: var(--text-alt);
+}
