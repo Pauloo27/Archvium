@@ -57,6 +57,11 @@ func RouteFor(app *fiber.App) {
 		withEnv("STORAGE_ROOT"),
 		foldersController.Index,
 	)
+	folders.Post("/*",
+		requireAuth,
+		withEnv("STORAGE_ROOT"),
+		foldersController.Create,
+	)
 
 	users.Get("/@me", requireAuth, usersController.GetMe)
 }

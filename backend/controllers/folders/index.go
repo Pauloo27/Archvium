@@ -9,7 +9,7 @@ import (
 )
 
 func Index(c *fiber.Ctx) error {
-	path, err := GetFolderByPath(c)
+	path, err := GetFolderByPath(c, true)
 	if path == "" {
 		return err
 	}

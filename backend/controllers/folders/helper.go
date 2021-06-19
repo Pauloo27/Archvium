@@ -8,7 +8,7 @@ import (
 	"github.com/gofiber/fiber/v2"
 )
 
-func GetFolderByPath(c *fiber.Ctx) (string, error) {
+func GetFolderByPath(c *fiber.Ctx, ensureExist bool) (string, error) {
 	valid, username, fullPath := utils.ParseFolderPath(utils.GetTargetPath(c))
 	if !valid {
 		return "", utils.AsError(c, http.StatusBadRequest, "Invalid path")
@@ -22,11 +22,11 @@ func GetFolderByPath(c *fiber.Ctx) (string, error) {
 
 	stat, err := os.Stat(basePath + fullPath)
 
-	if os.IsNotExist(err) {
+	if ensureExist && os.IsNotExist(err) {
 		return "", utils.AsError(c, http.StatusNotFound, "Folder not found")
 	}
 
-	if !stat.IsDir() {
+	if ensureExist && !stat.IsDir() {
 		return "", utils.AsError(c, http.StatusBadRequest, "The target folder is actually a file")
 	}
 
