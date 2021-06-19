@@ -43,5 +43,7 @@ func Register(ctx *fiber.Ctx) error {
 		}
 	}
 
+	// TODO: create user home folder
+
 	return utils.AsJSON(ctx, http.StatusCreated, user.ToDto())
 }
