@@ -64,6 +64,11 @@ func Upload(c *fiber.Ctx) error {
 	}
 
 	realPath := utils.Fmt("%s/%s", basePath, fullPath)
+
+	if _, err := os.Stat(realPath); !os.IsNotExist(err) {
+		return utils.AsError(c, http.StatusConflict, "File already exist in the target folder")
+	}
+
 	targetFile, err := os.Create(realPath)
 	if err != nil {
 		return utils.AsError(c, http.StatusInternalServerError, "Something went wrong while opening the target file")
