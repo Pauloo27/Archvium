@@ -32,7 +32,11 @@ export default function PageFilesUpload() {
 
     doRequest("/files/", { method: "POST", body: formData })
       .then((res) => {
-        if (res.ok) history.push(`/files/browse/${path}`);
+        if (res.ok) {
+          history.push(`/files/browse/${path}`);
+          return;
+        }
+        res.json().then((json) => setError(json.error));
       });
   });
 
